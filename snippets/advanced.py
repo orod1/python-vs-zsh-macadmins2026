@@ -51,7 +51,7 @@ def loops():
         count += 1
 
 def list_dict_examples():
-    """Show Python list and dict usage with basic access and iteration."""
+    """Example of Python list and dict usage with basic access and iteration."""
     fruits = ["apple", "banana", "cherry"]
     print("List element 1:", fruits[0])
 

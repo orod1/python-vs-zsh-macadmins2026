@@ -22,25 +22,31 @@ write_launch_agent() {
 EOF
 }
 
-# Run a Jamf policy event for an extension attribute or policy trigger.
+# Return the package receipt version for Jamf Extension Attribute use.
 jamf_ea() {
-  /usr/sbin/jamf policy -event myEA
+  receipt_id="com.google.Chrome"
+  version=$(pkgutil --pkg-info "${receipt_id}" 2>/dev/null | awk -F': ' '/version:/ {print $2; exit}')
+  if [[ -n "$version" ]]; then
+    echo "<result>${version}</result>"
+  else
+    echo "<result>Not Installed</result>"
+  fi
 }
 
-# Perform a Munki-style install or uninstall action.
+# Perform install check on pkg receipt and exit with appropriate code for Munki..
 munki_script() {
-  local mode=${1:-install}
-  if [[ $mode == install ]]; then
-    /usr/sbin/installer -pkg "/tmp/MyApp.pkg" -target /
-  elif [[ $mode == uninstall ]]; then
-    rm -rf "/Applications/MyApp.app"
+  receipt_id="com.google.Chrome"
+
+  if pkgutil --pkg-info "${receipt_id}" &>/dev/null; then
+      # Already installed
+      exit 1
   else
-    echo "Unknown mode: $mode"
-    return 1
+      # Not installed
+      exit 0
   fi
 }
 
 local script_mode="$1"
 write_launch_agent
 jamf_ea
-munki_script "$script_mode"
+munki_script 

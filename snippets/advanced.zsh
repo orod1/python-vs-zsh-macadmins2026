@@ -46,7 +46,7 @@ loops() {
   done
 }
 
-# Show a zsh array and an associative array.
+# Example of a zsh array and an associative array
 array_examples() {
   local fruits=("apple" "banana" "cherry")
   echo "Array element 1: ${fruits[1]}"

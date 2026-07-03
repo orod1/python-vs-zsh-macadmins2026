@@ -19,20 +19,36 @@ def write_launch_agent():
 
 
 def jamf_ea():
-    """Run a Jamf Extension Attribute-style policy event."""
-    result = subprocess.run(["/usr/sbin/jamf", "policy", "-event", "myEA"], check=True, capture_output=True, text=True)
-    print(result.stdout)
+    """Return the package receipt version for Jamf Extension Attribute use."""
+    receipt_id = "com.google.Chrome"
+
+    output = subprocess.run(
+        ["pkgutil", "--pkg-info", receipt_id],
+        capture_output=True,
+        text=True
+    ).stdout
+
+    for line in output.splitlines():
+        if line.startswith("version:"):
+            version = line.split(":", 1)[1].strip()
+            break
+
+    print(f"<result>{version or 'Not Installed'}</result>")
 
 
 def munki_script(mode="install"):
-    """Perform a Munki-style install or uninstall operation based on mode."""
-    if mode == "install":
-        subprocess.run(["/usr/sbin/installer", "-pkg", "/tmp/MyApp.pkg", "-target", "/"], check=True)
-    elif mode == "uninstall":
-        subprocess.run(["rm", "-rf", "/Applications/MyApp.app"], check=True)
+    """Perform install check on pkg receipt and exit with appropriate code for Munki."""
+    receipt_id = "com.google.Chrome"
+
+    result = subprocess.run(
+        ["pkgutil", "--pkg-info", receipt_id],
+        capture_output=True, text=True
+    )
+
+    if result.returncode == 0:
+        sys.exit(1)  # already installed
     else:
-        print(f"Unknown mode: {mode}")
-        raise SystemExit(1)
+        sys.exit(0)  # not installed
 
 
 if __name__ == "__main__":
