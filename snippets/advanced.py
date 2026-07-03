@@ -50,8 +50,26 @@ def loops():
         print(f"Count {count}")
         count += 1
 
+def list_dict_examples():
+    """Show Python list and dict usage with basic access and iteration."""
+    fruits = ["apple", "banana", "cherry"]
+    print("List element 1:", fruits[0])
+
+    user_info = {
+        "name": "alice",
+        "role": "admin",
+    }
+    print("Dict name:", user_info["name"])
+    print("Dict role:", user_info["role"])
+
+    for fruit in fruits:
+        print(f"Fruit: {fruit}")
+
+    for key, value in user_info.items():
+        print(f"{key}: {value}")
 
 if __name__ == "__main__":
     print("Target user:", require_arg())
     print("Prompt:", prompt_username())
     loops()
+    list_dict_examples()

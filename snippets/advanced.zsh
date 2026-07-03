@@ -46,9 +46,22 @@ loops() {
   done
 }
 
+# Show a zsh array and an associative array.
+array_examples() {
+  local fruits=("apple" "banana" "cherry")
+  echo "Array element 1: ${fruits[1]}"
+
+  typeset -A user_info
+  user_info[name]="alice"
+  user_info[role]="admin"
+  echo "Assoc array name: ${user_info[name]}"
+  echo "Assoc array role: ${user_info[role]}"
+}
+
 local script_user="$1"
 local script_prompt="$2"
 
 echo "Target user: $(require_arg "$script_user")"
 echo "Prompt: $(prompt_username "$script_prompt")"
 loops
+array_examples
