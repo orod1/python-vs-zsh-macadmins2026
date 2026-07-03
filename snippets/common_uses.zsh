@@ -19,19 +19,13 @@ run_installer() {
 
 # Call a REST API and print the GitHub repo full name.
 api_call() {
-  curl -s -H "User-Agent: macadmin-script" "https://api.github.com/repos/python/cpython" | python3 -c 'import sys, json; print(json.load(sys.stdin)["full_name"])'
+  curl -s -H "User-Agent: macadmin-script" "https://api.github.com/repos/python/cpython" | jq -r '.full_name'
 }
 
 # Parse JSON payload and print the name field.
 process_json() {
   local json_payload="$1"
-  printf '%s' "$json_payload" | python3 -c 'import sys, json; print(json.load(sys.stdin)["name"])'
-}
-
-# Parse YAML from a file and print the setting field.
-process_yaml() {
-  local yaml_path="$1"
-  python3 -c 'import yaml, sys; print(yaml.safe_load(sys.stdin)["setting"])' < "$yaml_path"
+  printf '%s' "$json_payload" | jq -r '.name'
 }
 
 echo "Logged in user: $(logged_in_user)"

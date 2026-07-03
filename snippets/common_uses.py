@@ -46,16 +46,6 @@ def process_json(payload):
     return obj
 
 
-def process_yaml(path):
-    """Load YAML from a file and print the configured setting value."""
-    import yaml
-
-    with open(path, encoding="utf-8") as f:
-        cfg = yaml.safe_load(f)
-    print(cfg.get("setting"))
-    return cfg
-
-
 if __name__ == "__main__":
     print("Logged in user:", logged_in_user())
     print("Local accounts:", local_accounts())
