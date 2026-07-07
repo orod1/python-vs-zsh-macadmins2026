@@ -15,8 +15,8 @@ def write_launch_agent():
         "ProgramArguments": ["/usr/bin/python3", "/usr/local/bin/hello.py"],
         "RunAtLoad": True,
     }
-    Path("/Library/LaunchAgents/com.example.hello.plist").write_bytes(plistlib.dumps(plist))
-
+    plist_path = Path("/Library/LaunchAgents/com.example.hello.plist")
+    plist_path.write_bytes(plistlib.dumps(plist))
 
 def jamf_ea():
     """Return the package receipt version for Jamf Extension Attribute use."""
