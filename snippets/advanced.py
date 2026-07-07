@@ -17,11 +17,6 @@ def require_arg():
         raise SystemExit(1)
     return sys.argv[1]
 
-# Python does not have a native installer function, but we can wrap the installer subcommand run function.
-def install_pkg(pkg_path):
-    """Install a package by invoking the system installer command."""
-    subprocess.run(["installer", "-pkg", pkg_path, "-target", "/"], check=True)
-
 
 def log_error():
     """Run a command and log an error message if it fails."""

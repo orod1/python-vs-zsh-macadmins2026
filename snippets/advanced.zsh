@@ -10,12 +10,6 @@ require_arg() {
   print -- "$1"
 }
 
-# Install a package using the installer command.
-install_pkg() {
-  local pkg_path="$1"
-  sudo installer -pkg "$pkg_path" -target /
-}
-
 # Log an error message and return failure if a command fails.
 log_error() {
   if ! false; then
