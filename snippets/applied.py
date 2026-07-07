@@ -9,13 +9,13 @@ import sys
 
 
 def write_launch_agent():
-    """Write a LaunchAgent plist to the user's Library folder."""
+    """Write a LaunchAgent plist to the LaunchAgents folder."""
     plist = {
         "Label": "com.example.hello",
         "ProgramArguments": ["/usr/bin/python3", "/usr/local/bin/hello.py"],
         "RunAtLoad": True,
     }
-    Path("~/Library/LaunchAgents/com.example.hello.plist").expanduser().write_bytes(plistlib.dumps(plist))
+    Path("/Library/LaunchAgents/com.example.hello.plist").write_bytes(plistlib.dumps(plist))
 
 
 def jamf_ea():
