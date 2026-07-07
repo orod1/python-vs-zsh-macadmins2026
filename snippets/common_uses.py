@@ -8,7 +8,7 @@ import os
 import pwd
 import subprocess
 import sys
-import urllib.request
+import requests
 from pathlib import Path
 
 
@@ -29,14 +29,19 @@ def run_installer(pkg_path):
     subprocess.run(["installer", "-pkg", pkg_path, "-target", "/"], check=True)
 
 
-def api_call():
-    """Query a remote API and print the GitHub repository full name."""
-    url = "https://api.github.com/repos/python/cpython"
-    req = urllib.request.Request(url, headers={"User-Agent": "macadmin-script"})
-    with urllib.request.urlopen(req) as resp:
-        data = json.load(resp)
-    print(data["full_name"])
-    return data
+def get_access_token(url, client_id, client_secret):
+    """Query a remote API endpoint and print the returned repository full name."""
+
+    response = requests.post(
+        f"{url}/api/oauth/token",
+        data={
+            "client_id": client_id,
+            "grant_type": "client_credentials",
+            "client_secret": client_secret,
+        },
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
 
 
 def process_json(payload):

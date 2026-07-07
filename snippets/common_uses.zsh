@@ -17,9 +17,17 @@ run_installer() {
   sudo installer -pkg "$pkg_path" -target /
 }
 
-# Call a REST API and print the GitHub repo full name.
-api_call() {
-  curl -s -H "User-Agent: macadmin-script" "https://api.github.com/repos/python/cpython" | jq -r '.full_name'
+# Get an OAuth access token from a Jamf Pro server using API credentials.
+url="https://company.jamf.training"
+client_id="0b59164c-334b-4627-8f0f-e9acb7b06a5d"
+client_secret="X4yFXP-H8Ald1tG0UtCU1SHKId5L8N6f0BcDFJaUkWu8NS7ZuEb_nDPhIiTIJLe5"
+api_get_access_token() {
+	response=$(curl --silent --location --request POST "${url}/api/oauth/token" \
+		--header "Content-Type: application/x-www-form-urlencoded" \
+		--data-urlencode "client_id=${client_id}" \
+		--data-urlencode "grant_type=client_credentials" \
+		--data-urlencode "client_secret=${client_secret}")
+	access_token=$(echo "$response" | plutil -extract access_token raw -)
 }
 
 # Parse JSON payload and print the name field.
