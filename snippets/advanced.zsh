@@ -50,6 +50,14 @@ array_examples() {
   user_info[role]="admin"
   echo "Assoc array name: ${user_info[name]}"
   echo "Assoc array role: ${user_info[role]}"
+
+  for fruit in "${fruits[@]}"; do
+    echo "Fruit: $fruit"
+  done
+
+  for key in "${(@k)user_info}"; do
+    echo "$key: ${user_info[$key]}"
+  done
 }
 
 local script_user="$1"
