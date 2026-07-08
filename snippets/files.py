@@ -4,6 +4,7 @@ File operations for macOS admin scripts: find, read, copy, edit,
 permissions, remove, and create.
 """
 import shutil
+import os
 from pathlib import Path
 
 
@@ -41,7 +42,8 @@ def chmod_file(path, mode):
 
 def remove_file(path):
     """Delete the specified file from disk."""
-    Path(path).unlink()
+    os.remove(path) # Remove file
+    os.rmdir(path)  # Remove directory
 
 
 def create_file(path, contents):
